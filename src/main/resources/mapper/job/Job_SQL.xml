@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="job">
+	
+	<insert id="insertJob" parameterType="hashmap"  keyProperty="IDX">
+		<selectKey keyProperty="SEQ" resultType="string" order="BEFORE">
+			SELECT ifnull( MAX(SEQ),0 )+1 FROM JOB
+		</selectKey>
+	
+		<![CDATA[
+			INSERT INTO JOB
+			(
+				SEQ,
+			    TITLE, 
+			    CONTENTS,
+			    LOCATION, 
+			    CREATE_DTM, 
+			    CREATE_ID
+			)
+			VALUES
+			(
+				#{SEQ}, 
+				#{TITLE},
+			    #{CONTENTS},
+			    #{LOCATION},
+			    CURRENT_TIMESTAMP,
+			    '3333'
+			)
+		]]>
+	</insert>
+	
+	
+	<select id="selectJobList" parameterType="hashmap" resultType="hashmap">
+		<!-- include refid="common.pagingPre"/--> 
+		<![CDATA[
+			SELECT SEQ, TITLE, CONTENTS, LOCATION, DATE_FORMAT( CREATE_DTM, '%Y%m%d') CREATE_DTM
+			FROM  JOB
+		]]>
+		<!-- include refid="common.pagingPost"/--> 
+	</select>
+	
+	
+	<select id="selectJobDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				SEQ, TITLE, CONTENTS, LOCATION, DATE_FORMAT( CREATE_DTM, '%Y%m%d') CREATE_DTM
+			FROM
+				JOB
+			WHERE
+				SEQ = #{SEQ}		
+		]]>
+	</select>
+	
+	
+
+	
+	<update id="deleteJob" parameterType="hashmap">
+		<![CDATA[
+			DELETE FROM JOB 
+			WHERE
+				SEQ = #{SEQ}	
+		]]>
+	</update>
+	
+	<update id="updateJob" parameterType="hashmap">
+		<![CDATA[
+			UPDATE JOB 
+			SET
+				TITLE = #{TITLE}
+				,CONTENTS = #{CONTENTS}
+				,LOCATION = #{LOCATION}
+			WHERE
+				SEQ = #{SEQ}	
+		]]>
+	</update>
+	
+	
+
+</mapper>

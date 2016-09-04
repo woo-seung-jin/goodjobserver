@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, target-densitydpi=medium-dpi">
+<title>first</title>
+
+<!--link rel="stylesheet" type="text/css" href="../../css/ui.css" /-->
+    
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />        
+<link rel="stylesheet" type="text/css" href="../../css/jquery.mobile-1.2.1.css" />
+
+<script src="../../js/jquery-1.8.2.js" charset="utf-8"></script>
+<script src="../../js/jquery.mobile-1.2.1.js" charset="utf-8"></script>
+<script src="../../js/common.js" charset="utf-8"></script>
+
+</head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <div class="login-page">
+            <div class="form">
+                <form class="login-form" id="frm" name="frm" enctype="multipart/form-data" >
+                    <input type="text"     id="LOGIN_ID" name="LOGIN_ID" placeholder="username" />
+                    <input type="password" id="LOGIN_PW" name="LOGIN_PW" placeholder="password" />
+                    <button  id="login" >로그인</button>
+                    <p class="message">Not registered? <a href="#" id="regist">Create an account</a></p>
+                </form>
+            </div>
+    </div>
+    
+	<!--form id="frm" name="frm" enctype="multipart/form-data"-->
+        
+        
+       <!--table class="board_view">
+			<colgroup>
+				<col width="15%">
+				<col width="*"/>
+			</colgroup>
+			<caption>Goodjob 고객등록</caption>
+			<tbody>
+				<tr>
+					<th scope="row">로그인ID</th>
+					<td><input type="text" id="LOGIN_ID" name="LOGIN_ID" class="wdp_90" value="" ></input></td>
+				</tr>
+				
+				<tr>
+					<th scope="row">로그인 PW</th>
+					<td>
+						<input type="text"  id="LOGIN_PW"      name="LOGIN_PW" ></input>
+					</td>
+				</tr>
+
+			</tbody>
+		</table-->
+		
+		<!--a href="#this" class="btn" id="login">로그인</a-->
+		
+		<!--a href="#this" class="btn" id="regist">등록</a-->
+		
+	<!--/form-->
+
+
+<form id="commonForm" name="commonForm"></form>
+	<script type="text/javascript">
+		var gfv_count = 1;
+	
+		$(document).ready(function(){
+			$("#login").on("click", function(e){ 
+				e.preventDefault();
+				fn_insertBoard();
+			});
+			
+		});
+		
+		function fn_insertBoard(){
+			var comSubmit = new ComSubmit("frm");
+			comSubmit.setUrl(  getAppContext() + "/goodjob/login/loginProcess.do");
+			comSubmit.submit();
+		}
+		
+	</script>
+
+</body>
+</html>

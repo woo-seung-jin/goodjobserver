@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="customer">
+    
+	<insert id="insertCustomer" parameterType="hashmap" useGeneratedKeys="true"  keyProperty="CUSTOMER_ID">
+		<selectKey keyProperty="CUSTOMER_ID" resultType="string" order="BEFORE">
+			SELECT ifnull( MAX(CUSTOMER_ID),0 )+1 FROM CUSTOMER
+		</selectKey>
+	
+		<![CDATA[
+			INSERT INTO CUSTOMER
+			(
+				CUSTOMER_ID,
+				LOGIN_ID,
+				LOGIN_PW,
+			    CUSTOMER_NAME, 
+			    EMAIL_DOMAIN, 
+			    EMAIL_ID,
+			    NATION_CD,
+			    HP_TEL_NATION_NO,
+			    HP_TEL_AREA_NO,
+			    HP_TEL_OFC_NO,
+			    HP_TEL_SEQ_NO,
+			    CREATE_DTM, 
+			    CREATE_ID
+			)
+			VALUES
+			(
+				#{CUSTOMER_ID}, 
+				#{LOGIN_ID},
+				#{LOGIN_PW},
+				#{CUSTOMER_NAME},
+			    #{EMAIL_DOMAIN},
+			    #{EMAIL_ID},
+			    '222',
+			    #{HP_TEL_NATION_NO},
+			    #{HP_TEL_AREA_NO},
+			    #{HP_TEL_OFC_NO},
+			    #{HP_TEL_SEQ_NO},
+			    CURRENT_TIMESTAMP,
+			    '3333'
+			)
+		]]>
+	</insert>
+	
+	
+	<select id="selectCustomerList" parameterType="hashmap" resultType="hashmap">
+		<!-- include refid="common.pagingPre"/--> 
+		<![CDATA[
+			SELECT CUSTOMER_ID, CUSTOMER_NAME, EMAIL_DOMAIN, EMAIL_ID, 
+			      HP_TEL_AREA_NO, HP_TEL_OFC_NO, HP_TEL_SEQ_NO
+			FROM  CUSTOMER
+		]]>
+		<!-- include refid="common.pagingPost"/--> 
+	</select>
+	
+	
+	<insert id="insertFile" parameterType="hashmap"  >
+	    
+	    <selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+			SELECT ifnull( MAX(BOARD_IDX),0 )+1 FROM TB_FILE
+		</selectKey>
+	    
+		<![CDATA[
+			INSERT INTO TB_FILE
+			(
+				IDX,
+				BOARD_IDX,
+				ORIGINAL_FILE_NAME,
+				STORED_FILE_NAME,
+				FILE_SIZE,
+				CREA_ID
+			)
+			VALUES
+			(
+				#{IDX},
+				#{BOARD_IDX},
+				#{ORIGINAL_FILE_NAME},
+				#{STORED_FILE_NAME},
+				#{FILE_SIZE},
+				'Admin'
+			)
+		]]>
+	</insert>
+
+	
+	<select id="selectCustomerDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				CUSTOMER_ID IDX,
+				CREATE_ID,
+				CREATE_DTM,
+				EMAIL_ID,
+				CUSTOMER_NAME
+			FROM
+				CUSTOMER
+			WHERE
+				CUSTOMER_ID = #{IDX}		
+		]]>
+	</select>
+	
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+			    IDX,
+			    ORIGINAL_FILE_NAME,
+			    ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
+			FROM
+			    TB_FILE
+			WHERE
+			    BOARD_IDX = #{IDX}
+			    AND DEL_GB = 'N'
+		]]>
+	</select>
+	
+</mapper>
